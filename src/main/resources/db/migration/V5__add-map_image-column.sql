@@ -1,0 +1,1 @@
+ALTER TABLE public.property ADD COLUMN IF NOT EXISTS map_image bytea NULL;

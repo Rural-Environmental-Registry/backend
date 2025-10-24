@@ -1,0 +1,49 @@
+{
+  "entityType": "PROPERTY",
+  "attributes": [
+    {
+      "type": "STRING",
+      "name": "mailing_address_recipient_name"
+    },
+    {
+      "type": "STRING",
+      "name": "mailing_address_street"
+    },
+    {
+      "type": "STRING",
+      "name": "mailing_address_number"
+    },
+    {
+      "type": "STRING",
+      "name": "mailing_address_neighborhood"
+    },
+    {
+      "type": "STRING",
+      "name": "mailing_address_zip_code"
+    },
+    {
+      "type": "STRING",
+      "name": "mailing_address_state"
+    },
+    {
+      "type": "STRING",
+      "name": "mailing_address_city"
+    },
+    {
+      "type": "STRING",
+      "name": "property_access_description"
+    },
+    {
+      "type": "STRING",
+      "name": "mailing_address_additional_info"
+    },
+    {
+      "type": "STRING",
+      "name": "mailing_address_email"
+    },
+    {
+      "type": "STRING",
+      "name": "mailing_address_telephone"
+    }
+  ]
+}

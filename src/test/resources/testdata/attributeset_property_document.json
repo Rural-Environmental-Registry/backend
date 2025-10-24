@@ -1,0 +1,46 @@
+{
+  "entityType": "PROPERTY_DOCUMENT",
+  "attributes": [
+    {
+      "type": "ENUM",
+      "name": "holdingType",
+      "allowedValues": ["property", "landholding"]
+    },
+    {
+      "type": "STRING",
+      "name": "deed"
+    },
+    {
+      "type": "DATE",
+      "name": "documentDate"
+    },
+    {
+      "type": "STRING",
+      "name": "book"
+    },
+    {
+      "type": "STRING",
+      "name": "page"
+    },
+    {
+      "type": "STRING",
+      "name": "state_of_notary_office"
+    },
+    {
+      "type": "STRING",
+      "name": "city_of_notary_office"
+    },
+    {
+      "type": "STRING",
+      "name": "national_rural_land_system_code"
+    },
+    {
+      "type": "STRING",
+      "name": "property_certification"
+    },
+    {
+      "type": "STRING",
+      "name": "national_rural_land_registration_number"
+    }
+  ]
+}

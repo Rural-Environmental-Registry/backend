@@ -1,0 +1,159 @@
+{
+  "geometry": {
+    "type": "Polygon",
+    "coordinates": [
+      [
+        [10.838544, 59.888535],
+        [10.838833, 59.888255],
+        [10.838399, 59.888083],
+        [10.838158, 59.888137],
+        [10.838018, 59.888293],
+        [10.838544, 59.888535]
+      ]
+    ]
+  },
+  "subAreas": [
+    {
+      "geometry": {
+        "type": "Point",
+        "coordinates": [10.838249, 59.888277]
+      },
+      "area": 0.0,
+      "areaType": "NATIVE_VEGETATION"
+    }
+  ],
+  "owners": [
+    {
+      "identifier": "111-111-111-111",
+      "dateOfBirth": "2000-01-01",
+      "name": "First owners full name",
+      "mothersName": "First owners mothers name",
+      "attributes": [
+        {
+          "name": "landholderType",
+          "value": "natural_person"
+        }
+      ]
+    },
+    {
+      "identifier": "222-222-222-222",
+      "dateOfBirth": "1999-01-01",
+      "name": "Second owners full name",
+      "mothersName": "Second owners mothers name",
+      "attributes": [
+        {
+          "name": "landholderType",
+          "value": "natural_person"
+        }
+      ]
+    }
+  ],
+  "registrar": {
+    "identifier": "333-333-333-333",
+    "dateOfBirth": "2001-01-01",
+    "name": "Registrars full name",
+    "mothersName": "Registrars mothers name"
+  },
+  "representative": {
+    "identifier": "444-444-444-444",
+    "dateOfBirth": "2002-01-01",
+    "name": "Representatives full name",
+    "mothersName": "Representatives mothers name"
+  },
+  "propertyName": "The name of the property",
+  "stateDistrict": "Name of the state of the property",
+  "municipality": "Name of the city of the property",
+  "zipcode": "Zip Code of the property",
+  "locationZone": "RURAL",
+  "attributes": [
+    {
+      "name": "mailing_address_recipient_name",
+      "value": "A name"
+    },
+    {
+      "name": "mailing_address_street",
+      "value": "Street name"
+    },
+    {
+      "name": "mailing_address_number",
+      "value": "Street number"
+    },
+    {
+      "name": "mailing_address_neighborhood",
+      "value": "Neighborhood name"
+    },
+    {
+      "name": "mailing_address_zip_code",
+      "value": "1234"
+    },
+    {
+      "name": "mailing_address_state",
+      "value": "Name of the state of the mailing address"
+    },
+    {
+      "name": "mailing_address_city",
+      "value": "STRING"
+    },
+    {
+      "name": "property_access_description",
+      "value": "Description of the access to the property"
+    },
+    {
+      "name": "mailing_address_additional_info",
+      "value": "Additional information about the mailing address"
+    },
+    {
+      "name": "mailing_address_email",
+      "value": "Email address"
+    },
+    {
+      "name": "mailing_address_telephone",
+      "value": "Telephone number"
+    }
+  ],
+  "documents": [
+    {
+      "registeredPropertyName": "Name of the registered property",
+      "area": 0.0,
+      "documentType": "DEED",
+      "attributes": [
+        {
+          "name": "holdingType",
+          "value": "property"
+        },
+        {
+          "name": "deed",
+          "value": "The deed document"
+        },
+        {
+          "name": "documentDate",
+          "value": "2020-01-01"
+        },
+        {
+          "name": "book",
+          "value": "Book number"
+        },
+        {
+          "name": "page",
+          "value": "Page number"
+        },
+        {
+          "name": "state_of_notary_office",
+          "value": "Name of the state of the notary office"
+        },
+        {
+          "name": "city_of_notary_office",
+          "value": "Name of the city of the notary office"
+        },
+        {
+          "name": "property_certification",
+          "value": "Certification"
+        },
+        {
+          "name": "national_rural_land_registration_number",
+          "value": "Registration number"
+        }
+      ]
+    }
+  ]
+}

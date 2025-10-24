@@ -1,0 +1,43 @@
+version: '3.3'
+
+services:
+  car-db:
+    image: postgis/postgis:latest
+    container_name: car-db
+    environment:
+      POSTGRES_DB: car_db
+      POSTGRES_USER: car_user
+      POSTGRES_PASSWORD: car_pass
+    volumes:
+      - car-db-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - car-net
+
+  car-registration:
+    image: car-registration:0.0.1-SNAPSHOT
+    container_name: car-registration
+    depends_on:
+      - car-db
+    environment:
+      SPRING_DATASOURCE_URL: "jdbc:postgresql://car-db:5432/car_db"
+      SPRING_DATASOURCE_USERNAME: "car_user"
+      SPRING_DATASOURCE_PASSWORD: "car_pass"
+      FRONTEND_URLS: "https://inovacao.dataprev.gov.br/,http://localhost:5173"
+      HASH_PREFIX: "BR"
+      RECEIPT_LOGO_PATH: "images/govbr.svg"
+      GENERAL_INFORMATION_RECEIPT_PATH: "reports/GENERAL_INFORMATION.txt"
+      REPORT_PARAMS_RECEIPT_JSON: "reports/report_params.json"
+      DEFAULT_LOCATION_ZONE: "Europe/London"
+    ports:
+      - "8080:8080"
+    networks:
+      - car-net
+
+networks:
+  car-net:
+    driver: bridge
+
+volumes:
+  car-db-data:

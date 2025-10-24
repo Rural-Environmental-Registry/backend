@@ -1,0 +1,10 @@
+{
+  "entityType": "OWNER",
+  "attributes": [
+    {
+      "type": "ENUM",
+      "name": "landholderType",
+      "allowedValues": ["natural_person", "legal_entity"]
+    }
+  ]
+}

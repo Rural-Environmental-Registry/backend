@@ -1,0 +1,3 @@
+INSERT INTO person (id, identifier, name, date_of_birth, mothers_name) VALUES ('a6052284-05fe-4f0d-af44-c28f8d5e06f2', '11111111111', 'Car-dpg', '2025-01-01', 'SICAR') ON CONFLICT (id) DO NOTHING;
+INSERT INTO users (id ,id_keycloak ,first_name ,last_name ,id_national ,email) 
+VALUES ('a6052284-05fe-4f0d-af44-c28f8d5e06f2', 'a6052284-05fe-4f0d-af44-c28f8d5e06f2', 'Car-dpg', 'Silva', '11111111111', 'admin-cardpg@gmail.com') ON CONFLICT (id) DO NOTHING;
