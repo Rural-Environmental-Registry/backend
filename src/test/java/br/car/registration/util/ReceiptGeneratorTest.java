@@ -44,6 +44,12 @@ class ReceiptGeneratorTest {
         property.setId(UUID.randomUUID());
         property.setCreatedAt(Instant.now());
         property.setMapImage("test image".getBytes());
+        property.setAttributes(List.of());
+        property.setDocuments(List.of());
+        property.setSubAreas(List.of());
+        property.setOwnerships(List.of());
+        property.setRegistrarships(List.of());
+        property.setRepresentativeships(List.of());
 
         PropertyRes.MainArea mainArea = new PropertyRes.MainArea();
         mainArea.setArea(100.0);

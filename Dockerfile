@@ -1,37 +1,54 @@
 # ============================
-# 1) Build Stage
+# 1) Dependencies Stage
 # ============================
-FROM gradle:8.12.1-jdk21 AS builder
+FROM gradle:8.12.1-jdk21 AS dependencies
+
+# Atualizar sistema e instalar dependências
+RUN apt-get update && apt-get upgrade -y && apt-get install -y \
+    libfreetype6 \
+    fontconfig \
+    && rm -rf /var/lib/apt/lists/* \
+    && apt-get clean
+
 WORKDIR /app
 
-# ENV GRADLE_OPTS="-Dhttps.proxyHost=10.31.220.23 -Dhttps.proxyPort=3128 -Dhttp.proxyHost=10.31.220.23 -Dhttp.proxyPort=3128"
+ENV GRADLE_OPTS="-Dhttps.proxyHost= -Dhttps.proxyPort= -Dhttp.proxyHost= -Dhttp.proxyPort="
 
-# Copy the project files into the container
-COPY . .
+# Copiar arquivos de configuração do Gradle
+COPY build.gradle settings.gradle gradle.properties* gradlew gradlew.bat ./
+COPY gradle/ ./gradle/
 
-# Build the application (skip tests if you want faster builds in dev)
-# RUN gradle clean build -x test 
-RUN chmod +x ./gradlew
-RUN ./gradlew clean compileJasperReports copyCompiledJasper 
-RUN ./gradlew build -x test
+# Download dependencies com cache - esta camada será reutilizada
+RUN --mount=type=cache,target=/root/.gradle/caches \
+    --mount=type=cache,target=/root/.gradle/wrapper \
+    chmod +x ./gradlew && \
+    (./gradlew dependencies --no-daemon || gradle dependencies --no-daemon)
 
 # ============================
-# 2) Run Stage
+# 2) Build Stage
 # ============================
-FROM openjdk:21-slim
+FROM dependencies AS build
+
+# Copiar código fonte
+COPY src/ ./src/
+
+# Build com cache otimizado
+RUN --mount=type=cache,target=/root/.gradle/caches \
+    --mount=type=cache,target=/root/.gradle/wrapper \
+    ./gradlew clean compileJasperReports copyCompiledJasper build -x test --no-daemon
+
+# ============================
+# 3) Runtime Stage
+# ============================
+FROM eclipse-temurin:21-jre-jammy AS runtime
 WORKDIR /app
 
-RUN apt-get update && apt-get install -y \
-  libfreetype6 \
-  fontconfig \
-  && rm -rf /var/lib/apt/lists/*
+# Copiar JAR do estágio anterior
+COPY --from=build /app/build/libs/registration-0.0.1-SNAPSHOT.jar /app/app.jar
 
+# Configurações JVM otimizadas
+ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0"
 
-# Copy the built JAR from the build stage into the runtime image
-COPY --from=builder /app/build/libs/*.jar /app/app.jar
-
-# Expose the default Spring Boot port
 EXPOSE 8080
 
-# Set the entrypoint to run the jar
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+ENTRYPOINT ["sh", "-c", "java  -jar /app/app.jar"]

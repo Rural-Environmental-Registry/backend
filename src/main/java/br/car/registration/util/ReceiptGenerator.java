@@ -43,6 +43,7 @@ public class ReceiptGenerator {
   }
 
   public byte[] createPdf(Property property, String locationZone) {
+    String WATERMARK_IMAGE_PATH = System.getenv("WATERMARK_IMAGE_PATH");
     String defaultLocationZone = System.getenv("DEFAULT_LOCATION_ZONE");
     String zoneToUse = (locationZone == null && locationZone.isBlank()) ? defaultLocationZone : locationZone;
     if (!isValidTimeZone(zoneToUse)) {
@@ -70,6 +71,7 @@ public class ReceiptGenerator {
       Map<String, Object> parameters = new HashMap<>();
       parameters.put("createdBy", "Dataprev");
       parameters.put("LOGO_PATH", imagePath);
+      parameters.put("WATERMARK_IMAGE_PATH", WATERMARK_IMAGE_PATH);
       parameters.put("ISSUE_DATE", issueDate);
       parameters.put("CREATED_AT", createdAtForJasper);
       parameters.put("GENERAL_INFORMATION", textContent);
