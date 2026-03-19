@@ -64,6 +64,7 @@ jobs:
           context: .
           push: true
           tags: ${{ env.REGISTRY }}/${{ steps.set-owner.outputs.owner }}/${{ env.IMAGE_NAME }}:${{ steps.set-tag.outputs.tag }}
+          labels: org.opencontainers.image.source=https://github.com/${{ github.repository }}
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
