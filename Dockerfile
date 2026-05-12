@@ -15,14 +15,13 @@ WORKDIR /app
 ENV GRADLE_OPTS="-Dhttps.proxyHost= -Dhttps.proxyPort= -Dhttp.proxyHost= -Dhttp.proxyPort="
 
 # Copiar arquivos de configuração do Gradle
-COPY build.gradle settings.gradle gradle.properties* gradlew gradlew.bat ./
+COPY build.gradle settings.gradle gradle.properties* ./
 COPY gradle/ ./gradle/
 
-# Download dependencies com cache - esta camada será reutilizada
+# Download dependencies com cache
 RUN --mount=type=cache,target=/root/.gradle/caches \
     --mount=type=cache,target=/root/.gradle/wrapper \
-    chmod +x ./gradlew && \
-    (./gradlew dependencies --no-daemon || gradle dependencies --no-daemon)
+    gradle dependencies --no-daemon
 
 # ============================
 # 2) Build Stage
@@ -35,7 +34,7 @@ COPY src/ ./src/
 # Build com cache otimizado
 RUN --mount=type=cache,target=/root/.gradle/caches \
     --mount=type=cache,target=/root/.gradle/wrapper \
-    ./gradlew clean compileJasperReports copyCompiledJasper build -x test --no-daemon
+    gradle clean compileJasperReports copyCompiledJasper build -x test --no-daemon
 
 # ============================
 # 3) Runtime Stage
