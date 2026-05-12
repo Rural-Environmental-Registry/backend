@@ -39,7 +39,7 @@ jobs:
               echo "tag=${VERSION}-qa" >> $GITHUB_OUTPUT
               ;;
             release/prd)
-              echo "tag=${VERSION}" >> $GITHUB_OUTPUT
+              echo "tag=${VERSION}-prd" >> $GITHUB_OUTPUT
               ;;
             main)
               echo "tag=${VERSION}" >> $GITHUB_OUTPUT
