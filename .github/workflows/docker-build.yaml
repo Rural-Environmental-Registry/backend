@@ -7,6 +7,12 @@ on:
       - 'release/qa'
       - 'release/prd'
       - main
+  pull_request:
+    branches:
+      - 'release/dev'
+      - 'release/qa'
+      - 'release/prd'
+      - main
 
 env:
   REGISTRY: ghcr.io
@@ -68,7 +74,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          push: true
+          push: ${{ github.event_name == 'push' }}
           tags: |
             ${{ env.REGISTRY }}/${{ steps.set-owner.outputs.owner }}/${{ env.IMAGE_NAME }}:${{ steps.set-tag.outputs.tag }}
             ${{ steps.set-tag.outputs.latest == 'true' && format('{0}/{1}/{2}:latest', env.REGISTRY, steps.set-owner.outputs.owner, env.IMAGE_NAME) || '' }}
