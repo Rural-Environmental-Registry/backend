@@ -37,7 +37,8 @@ jobs:
         id: set-tag
         run: |
           VERSION="${{ steps.version.outputs.version }}"
-          case "${{ github.ref_name }}" in
+          BRANCH="${{ github.event_name == 'pull_request' && github.base_ref || github.ref_name }}"
+          case "$BRANCH" in
             release/dev)
               echo "tag=${VERSION}-dev" >> $GITHUB_OUTPUT
               ;;
@@ -52,7 +53,7 @@ jobs:
               echo "latest=true" >> $GITHUB_OUTPUT
               ;;
             *)
-              echo "tag=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+              echo "tag=${VERSION}-pr" >> $GITHUB_OUTPUT
               ;;
           esac
 
