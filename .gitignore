@@ -44,3 +44,8 @@ gradle/wrapper/gradle-wrapper.jar
 ### Environment ###
 .env
 .env.*
+
+# Gradle Wrapper (required for reproducible builds)
+!gradlew
+!gradlew.bat
+!gradle/wrapper/gradle-wrapper.jar
