@@ -7,6 +7,12 @@ on:
       - 'release/qa'
       - 'release/prd'
       - main
+  pull_request:
+    branches:
+      - 'release/dev'
+      - 'release/qa'
+      - 'release/prd'
+      - main
 
 env:
   REGISTRY: ghcr.io
@@ -31,7 +37,8 @@ jobs:
         id: set-tag
         run: |
           VERSION="${{ steps.version.outputs.version }}"
-          case "${{ github.ref_name }}" in
+          BRANCH="${{ github.event_name == 'pull_request' && github.base_ref || github.ref_name }}"
+          case "$BRANCH" in
             release/dev)
               echo "tag=${VERSION}-dev" >> $GITHUB_OUTPUT
               ;;
@@ -39,14 +46,14 @@ jobs:
               echo "tag=${VERSION}-qa" >> $GITHUB_OUTPUT
               ;;
             release/prd)
-              echo "tag=${VERSION}" >> $GITHUB_OUTPUT
+              echo "tag=${VERSION}-prd" >> $GITHUB_OUTPUT
               ;;
             main)
               echo "tag=${VERSION}" >> $GITHUB_OUTPUT
               echo "latest=true" >> $GITHUB_OUTPUT
               ;;
             *)
-              echo "tag=${{ github.ref_name }}" >> $GITHUB_OUTPUT
+              echo "tag=${VERSION}-pr" >> $GITHUB_OUTPUT
               ;;
           esac
 
@@ -68,7 +75,7 @@ jobs:
         uses: docker/build-push-action@v5
         with:
           context: .
-          push: true
+          push: ${{ github.event_name == 'push' }}
           tags: |
             ${{ env.REGISTRY }}/${{ steps.set-owner.outputs.owner }}/${{ env.IMAGE_NAME }}:${{ steps.set-tag.outputs.tag }}
             ${{ steps.set-tag.outputs.latest == 'true' && format('{0}/{1}/{2}:latest', env.REGISTRY, steps.set-owner.outputs.owner, env.IMAGE_NAME) || '' }}
