@@ -3,10 +3,10 @@
 # ============================
 FROM eclipse-temurin:21-jdk-jammy AS dependencies
 
-RUN apt-get update && apt-get upgrade -y && apt-get install -y \
+RUN apt-get update && apt-get install -y --no-install-recommends \
     libfreetype6 \
     fontconfig \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 
@@ -37,13 +37,17 @@ RUN --mount=type=cache,target=/root/.gradle/caches \
 # 3) Runtime Stage
 # ============================
 FROM eclipse-temurin:21-jre-jammy AS runtime
+
+RUN addgroup --system --gid 1001 appgroup && \
+    adduser --system --uid 1001 --ingroup appgroup appuser
+
 WORKDIR /app
 
-COPY --from=build /app/build/libs/registration-0.0.1-SNAPSHOT.jar /app/app.jar
+COPY --from=build --chown=appuser:appgroup /app/build/libs/registration-0.0.1-SNAPSHOT.jar /app/app.jar
 
 ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75.0"
 
 EXPOSE 8080
 
-# Use exec to replace shell — Java becomes PID 1, receives SIGTERM for graceful shutdown
+USER appuser
 ENTRYPOINT ["sh", "-c", "exec java $JAVA_OPTS -jar /app/app.jar"]
